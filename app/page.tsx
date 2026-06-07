@@ -1,190 +1,129 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (!glowRef.current) return;
+
+      glowRef.current.style.left = e.clientX + "px";
+      glowRef.current.style.top = e.clientY + "px";
+    };
+
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
   return (
-    <main style={{
-      minHeight: "100vh",
-      color: "#eaeaea",
-      fontFamily: "sans-serif",
-      position: "relative",
-      overflow: "hidden",
-      background: "radial-gradient(circle at top, #111 0%, #000 100%)"
-    }}>
+    <div className="page">
 
-      {/* Background Grid / Circuit Style */}
-      <div style={{
-        position: "absolute",
-        inset: 0,
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)
-        `,
-        backgroundSize: "60px 60px",
-        opacity: 0.2,
-        zIndex: 0
-      }} />
+      <div ref={glowRef} className="glow" />
 
-      {/* Floating Glows */}
-      <div style={{
-        position: "absolute",
-        width: "400px",
-        height: "400px",
-        background: "radial-gradient(circle, rgba(255,59,59,0.3), transparent 70%)",
-        top: "10%",
-        left: "10%",
-        filter: "blur(60px)"
-      }} />
+      <section className="hero">
+        <h1 className="glassTitle">AFFAF</h1>
 
-      <div style={{
-        position: "absolute",
-        width: "400px",
-        height: "400px",
-        background: "radial-gradient(circle, rgba(255,208,0,0.2), transparent 70%)",
-        bottom: "10%",
-        right: "10%",
-        filter: "blur(80px)"
-      }} />
+        <p className="bio">
+          Embedded Systems • Electronics • AI • Microcontrollers
+        </p>
 
-      {/* NAVBAR */}
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "20px 40px",
-        position: "relative",
-        zIndex: 2,
-        borderBottom: "1px solid rgba(255,255,255,0.1)"
-      }}>
-        <div style={{ color: "#ff3b3b", fontWeight: "bold", letterSpacing: "2px" }}>
-          AFFAF
-        </div>
+        <p className="scroll">Scroll Down ↓</p>
+      </section>
 
-        <div style={{ display: "flex", gap: "20px", fontSize: "14px" }}>
-          <span style={{ cursor: "pointer" }}>Dashboard</span>
-          <span style={{ cursor: "pointer" }}>Projects</span>
-          <span style={{ cursor: "pointer" }}>Skills</span>
-          <span style={{ cursor: "pointer" }}>Contact</span>
+      <section className="flow">
 
-          <a href="https://github.com/affafmp" target="_blank" style={{ color: "#ffd000" }}>
-            GitHub
-          </a>
+        <MagneticLink href="/dashboard">Dashboard</MagneticLink>
+        <Arrow />
 
-          <a href="https://www.linkedin.com/in/abolfazl-moemenpour-a53174283/" target="_blank" style={{ color: "#4da3ff" }}>
-            LinkedIn
-          </a>
-        </div>
-      </div>
+        <MagneticLink href="/projects">Projects</MagneticLink>
+        <Arrow />
 
-      {/* HERO DASHBOARD */}
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
-        position: "relative",
-        zIndex: 2
-      }}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          style={{
-            padding: "50px",
-            borderRadius: "20px",
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            backdropFilter: "blur(20px)",
-            textAlign: "center",
-            maxWidth: "700px"
-          }}
-        >
-          <h1 style={{
-            fontSize: "64px",
-            margin: 0,
-            color: "#ff3b3b",
-            letterSpacing: "4px"
-          }}>
-            AFFAF
-          </h1>
+        <MagneticLink href="/skills">Skills</MagneticLink>
+        <Arrow />
 
-          <p style={{ fontSize: "18px", color: "#ffd000", marginTop: "10px" }}>
-            Private Engineering Dashboard
-          </p>
+        <MagneticLink href="/contact">Contact</MagneticLink>
+        <Arrow />
 
-          <p style={{ opacity: 0.7, marginTop: "10px" }}>
-            Electrical Engineering • Embedded Systems • AI • Software Development
-          </p>
+        <Social href="https://github.com" color="#bdbdbd">
+          GitHub
+        </Social>
 
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "15px",
-            marginTop: "25px"
-          }}>
-            <button style={{
-              padding: "10px 20px",
-              background: "#ff3b3b",
-              border: "none",
-              borderRadius: "10px",
-              color: "white",
-              cursor: "pointer"
-            }}>
-              View Projects
-            </button>
+        <Arrow />
 
-            <button style={{
-              padding: "10px 20px",
-              background: "transparent",
-              border: "1px solid #ffd000",
-              borderRadius: "10px",
-              color: "#ffd000",
-              cursor: "pointer"
-            }}>
-              Contact Me
-            </button>
-          </div>
-        </motion.div>
-      </div>
+        <Social href="https://linkedin.com" color="#0A66C2">
+          LinkedIn
+        </Social>
 
-      {/* CARDS SECTION */}
-      <div style={{
-        position: "relative",
-        zIndex: 2,
-        padding: "60px 20px",
-        textAlign: "center"
-      }}>
-        <h2 style={{ color: "#ff3b3b" }}>Core Systems</h2>
-
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          flexWrap: "wrap",
-          marginTop: "30px"
-        }}>
-
-          {[
-            { title: "Embedded Systems", desc: "Microcontrollers & Hardware" },
-            { title: "AI Systems", desc: "Machine Learning Projects" },
-            { title: "Circuit Design", desc: "Proteus & Simulation" }
-          ].map((item, i) => (
-            <div key={i} style={{
-              width: "250px",
-              padding: "20px",
-              borderRadius: "15px",
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              backdropFilter: "blur(10px)"
-            }}>
-              <h3 style={{ color: "#ffd000" }}>{item.title}</h3>
-              <p style={{ opacity: 0.6 }}>{item.desc}</p>
-            </div>
-          ))}
-
-        </div>
-      </div>
-
-    </main>
+      </section>
+      
+    </div>
   );
+}
+
+/* ================= MAGNETIC COMPONENT ================= */
+
+function MagneticLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  const move = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    ref.current.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+  };
+
+  const reset = () => {
+    if (!ref.current) return;
+    ref.current.style.transform = "translate(0px, 0px)";
+  };
+
+  return (
+    <Link
+      href={href}
+      ref={ref}
+      className="flowItem"
+      onMouseMove={move}
+      onMouseLeave={reset}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function Social({
+  href,
+  color,
+  children,
+}: {
+  href: string;
+  color: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      className="flowItem"
+      style={{ color }}
+      target="_blank"
+    >
+      {children}
+    </a>
+  );
+}
+
+function Arrow() {
+  return <span className="arrow">➜</span>;
 }

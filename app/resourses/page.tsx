@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 
 export default function Home() {
+  // لیست هوشمند پروژه‌ها
   const [projectsList] = useState([
-    { id: 1, title: 'مدار آلارم 555', image: '/proteus-1.jpg', type: 'image' },
-    { id: 2, title: 'Coming Soon...', image: '', type: 'text' },
-    { id: 3, title: 'Coming Soon...', image: '', type: 'text' },
+    { id: 1, title: 'مدار آلارم 555', image: '/proteus-1.jpg' }, // عکس 1
+    { id: 2, title: 'شبیه‌سازی پروتئوس ۲', image: '/proteus-2.jpg' }, // عکس 2
+    { id: 3, title: 'طراحی مدار پروتئوس ۳', image: '/proteus-3.jpg' }, // عکس 3
   ]);
-  
   const [articlesList] = useState<string[]>([]);
   const [coursesList] = useState<string[]>([]);
   const [currentAcademicYear] = useState<number>(3);
@@ -17,6 +17,7 @@ export default function Home() {
     const isMobile = window.innerWidth < 900;
 
     if (isMobile) {
+      // حالت موبایل: انیمیشن چرخشی خودکار نور
       let angle = 0;
       const interval = setInterval(() => {
         angle = (angle + 0.5) % 360;
@@ -27,6 +28,7 @@ export default function Home() {
       }, 50);
       return () => clearInterval(interval);
     } else {
+      // حالت دسکتاپ: حرکت با موس
       const handleMouseMove = (e: MouseEvent) => {
         const x = (e.clientX / window.innerWidth) * 100;
         const y = (e.clientY / window.innerHeight) * 100;
@@ -40,6 +42,7 @@ export default function Home() {
 
   return (
     <div>
+      {/* لایه‌های بک‌گراند مدار */}
       <div className="circuit-lines"></div>
       <div className="circuit-icons">
         <div className="circuit-icon-item icon-1">⚡</div>
@@ -54,7 +57,16 @@ export default function Home() {
 
       <header>
         <div className="logo">
-          <img src="/logo.png" alt="" style={{height: '35px', width: 'auto', mixBlendMode: 'screen'}} />
+          {/* لوگوی شما با mixBlendMode برای حذف هر گونه پس‌زمینه باقی‌مانده */}
+          <img 
+            src="/logo.png" 
+            alt="" 
+            style={{
+              height: '35px',
+              width: 'auto',
+              mixBlendMode: 'screen'
+            }} 
+          />
           <span style={{color: '#ffce00', fontWeight: 'bold', fontSize: '1.5rem'}}>AFFAF</span>
         </div>
         <ul className="nav-links">
@@ -78,16 +90,16 @@ export default function Home() {
       </section>
 
       <section className="stats-container">
-        <div className="stat-card"><div className="stat-number">{projectsList.filter(p => p.type === 'image').length}</div><div className="stat-label">پروژه انجام شده</div></div>
+        <div className="stat-card"><div className="stat-number">{projectsList.length}</div><div className="stat-label">پروژه انجام شده</div></div>
         <div className="stat-card"><div className="stat-number">{articlesList.length}</div><div className="stat-label">مقاله تخصصی</div></div>
         <div className="stat-card"><div className="stat-number">{coursesList.length}</div><div className="stat-label">دوره</div></div>
         <div className="stat-card"><div className="stat-number">{currentAcademicYear}</div><div className="stat-label">سال تحصیلی</div></div>
       </section>
 
-      {/* این بخش‌ها در موبایل با کلاس hide-on-mobile مخفی می‌شوند */}
       <div className="hide-on-mobile">
         <h2 className="section-title">دسته‌بندی‌ها</h2>
-        <section className="categories-grid"><div className="cat-card"><div className="cat-icon">🔌</div><div className="cat-title">پروژه‌های پروتئوس</div><div className="cat-desc">شبیه‌سازی مدارهای الکترونیکی با Proteus</div><a href="/projects" className="cat-link">مشاهده پروژه‌ها &lt;</a></div>
+        <section className="categories-grid">
+          <div className="cat-card"><div className="cat-icon">🔌</div><div className="cat-title">پروژه‌های پروتئوس</div><div className="cat-desc">شبیه‌سازی مدارهای الکترونیکی با Proteus</div><a href="/projects" className="cat-link">مشاهده پروژه‌ها &lt;</a></div>
           <div className="cat-card"><div className="cat-icon">📊</div><div className="cat-title">پروژه‌های متلب</div><div className="cat-desc">تحلیل و شبیه‌سازی با MATLAB</div><a href="/projects" className="cat-link">مشاهده پروژه‌ها &lt;</a></div>
           <div className="cat-card"><div className="cat-icon">📐</div><div className="cat-title">آلتیم دیزاینر</div><div className="cat-desc">طراحی بردهای الکترونیکی با Altium Designer</div><a href="/projects" className="cat-link">مشاهده پروژه‌ها &lt;</a></div>
           <div className="cat-card"><div className="cat-icon">🧠</div><div className="cat-title">هوش مصنوعی</div><div className="cat-desc">پروژه‌ها و مقالات مرتبط با AI</div><a href="/projects" className="cat-link">مشاهده پروژه‌ها &lt;</a></div>
@@ -100,13 +112,7 @@ export default function Home() {
           <div className="projects-grid">
             {projectsList.map((project) => (
               <div key={project.id} className="project-card">
-                {project.type === 'image' ? (
-                  <img src={project.image} alt={project.title} />
-                ) : (
-                  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#888', fontSize: '1.2rem', fontWeight: 'bold', background: 'rgba(255,255,255,0.03)'}}>
-                    {project.title}
-                  </div>
-                )}
+                <img src={project.image} alt={project.title} />
               </div>
             ))}
           </div>
